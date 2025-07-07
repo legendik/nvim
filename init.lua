@@ -380,6 +380,7 @@ require('lazy').setup({
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      'folke/which-key.nvim',
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -426,16 +427,21 @@ require('lazy').setup({
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
-      vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-      vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<D-S-o>', builtin.find_files, { desc = '[S]earch [F]iles' })
-      vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-      vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-      vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-      vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-      vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-      vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-      vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      local wk = require 'which-key'
+
+      wk.add {
+        { '<leader>s', group = '[S]earch' },
+        { '<leader>sf', builtin.find_files, desc = '[S]earch [F]iles' },
+        { '<leader>sg', builtin.live_grep, desc = '[S]earch Live [G]rep' },
+        { '<leader>sb', builtin.buffers, desc = '[S]earch [B]uffers' },
+        { '<leader>sh', builtin.help_tags, desc = '[S]earch [H]elp Tags' },
+        { '<leader>sr', builtin.oldfiles, desc = '[Search] [R]ecent Files' },
+        { '<leader>sc', builtin.commands, desc = '[S]earch [C]ommands' },
+        { '<leader>sk', builtin.keymaps, desc = '[S]earch [K]eymaps' },
+        { '<leader>sm', builtin.marks, desc = '[S]earch [M]arks' },
+        { '<leader>sj', builtin.jumplist, desc = '[S]earch [J]ump List' },
+        { '<leader>s/', builtin.current_buffer_fuzzy_find, desc = '[S]earch in Current Buffer' },
+      }
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -671,7 +677,7 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
+        clangd = {},
         -- gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
@@ -681,7 +687,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        ts_ls = {},
         --
 
         lua_ls = {

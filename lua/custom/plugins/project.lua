@@ -25,7 +25,12 @@ return {
 
       -- Don't calculate root dir on specific directories
       -- Ex: { "~/.cargo/*", ... }
-      exclude_dirs = {},
+      exclude_dirs = {
+        '~/go/pkg/*',
+        '~/go/src/*',
+        '**/vendor/*',
+        '**/go/pkg/mod/*',
+      },
 
       -- Show hidden files in telescope
       show_hidden = false,

@@ -9,6 +9,9 @@ return {
   config = function()
     require('refactoring').setup({})
     
+    -- Load telescope extension
+    require('telescope').load_extension('refactoring')
+    
     local wk = require('which-key')
     
     -- Refactoring operations group
